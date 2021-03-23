@@ -1,5 +1,5 @@
 # Proyectos de informática
-## por ALba Crespo
+## por Alba Crespo
 
 - [Falla](https://aalbacrespo.github.io/falla/)
 
