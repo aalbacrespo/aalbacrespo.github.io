@@ -10,9 +10,8 @@
   // The "camera" is what sees the stuff:
   var aspectRatio = window.innerWidth / window.innerHeight;
   var camera = new THREE.PerspectiveCamera(75, aspectRatio, 1, 10000);
-  camera.position.z = 6000;
-  camera.position.y = 4000;
-  scene.add(camera);
+  camera.position.z = 500;
+  //scene.add(camera);
 
   // The "renderer" draws what the camera sees onto the screen:
   var renderer = new THREE.WebGLRenderer({antialias: true});
@@ -21,11 +20,21 @@
 
  // ******** START CODING ON THE NEXT LINE ********
     
-    //cuerpo
+ //marcador
+ var marcador=new THREE.Object3D();
+
+    
+//cuerpo
 var body= new THREE.SphereGeometry(100);
 var cover= new THREE.MeshNormalMaterial(flat);
 var avatar= new THREE.Mesh(body,cover);
-scene.add(avatar);
+
+//avatar.add(camera);
+//scene.add(camera);
+//scene.add(avatar);
+scene.add(marcador);    
+marcador.add(avatar);
+marcador.add(camera)
     
 //mano derecha 
 var hand = new THREE.SphereGeometry(50);
@@ -77,18 +86,20 @@ function hacerArbol (x,z) {
 }   
 //TODO:Crear un area rectangular dónde haya árboles plantados
 
-    var distancia_arboles =800;
+    var distancia_arboles=800;
     var minimo_x=-4000;
     var maximo_x=4000;
     var minimo_z=-4000;
     var maximo_z=4000;
 
+
     
     for(var x=minimo_x;x<=maximo_x;x=x+distancia_arboles){
     for(var z=minimo_z;z<=maximo_z;z=z+distancia_arboles){
     hacerArbol(x,z);
+        }
     }
-}
+
 
 //hacerArbol(200,0);
 //hacerArbol(0,0);
@@ -99,10 +110,10 @@ function hacerArbol (x,z) {
 //alert(evento.code);
     var codigo=evento.code
     
-        if (codigo=="ArrowLeft") avatar.position.x -= 5;
-        if (codigo=="ArrowRight") avatar.position.x += 5;
-        if (codigo=="ArrowUp") avatar.position.z += 5;
-        if (codigo=="ArrowDown") avatar.position.z -= 5;
+        if (codigo=="ArrowLeft") marcador.position.x -= 5;
+        if (codigo=="ArrowRight") marcador.position.x += 5;
+        if (codigo=="ArrowUp") marcador.position.z += 5;
+        if (codigo=="ArrowDown") marcador.position.z -= 5;
     }
     
     function animate() {
