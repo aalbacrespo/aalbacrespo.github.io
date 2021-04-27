@@ -30,6 +30,7 @@ var cover= new THREE.MeshNormalMaterial(flat);
 var avatar= new THREE.Mesh(body,cover);
 
 //avatar.add(camera);
+camera.lookAt(avatar);
 //scene.add(camera);
 //scene.add(avatar);
 scene.add(marcador);    
@@ -110,10 +111,32 @@ function hacerArbol (x,z) {
 //alert(evento.code);
     var codigo=evento.code
     
-        if (codigo=="ArrowLeft") marcador.position.x -= 5;
-        if (codigo=="ArrowRight") marcador.position.x += 5;
-        if (codigo=="ArrowUp") marcador.position.z += 5;
-        if (codigo=="ArrowDown") marcador.position.z -= 5;
+        if (codigo=="ArrowLeft") marcador.rotation.y+=0.01;
+        if (codigo=="ArrowRight") marcador.rotation.y-= 0.01;
+        if (codigo=="ArrowUp") avanzar(marcador,marcador.rotation.y, false);
+        if (codigo=="ArrowDown") avanzar(marcador,marcador.rotation.y, true)= 5;
+        if (codigo=="KeyG") {
+            girando= !girando;
+        }
+    }
+    
+    function avanzar(objeto, radianes, atras = false){
+        //Para que pueda ir hacia atras con los cursores
+        var grados = (180*radianes/Math.PI);
+        if (atras) {
+          radianes = radianes + Math.PI;    
+        }
+   var grados = 180*radianes/Math.PI;
+        
+        console.log("Grados:"+grados);
+        console.log("Radianes:"+radianes);
+        console.log("z:"+objeto.position.z);
+        console.log("Cos(radianes):"+Math.cos(radianes));
+        console.log("Sin(radianes):"+Math.sin(radianes));
+        
+        
+        objeto.position.x += -20*Math.cos(grados);
+        objeto.position.z += -20*Math.sin(grados);
     }
     
     function animate() {
