@@ -64,6 +64,9 @@ avatar.add(leftFoot);
 
 document.addEventListener("keydown",gestionarTecla);
 
+//Lista de objetos que no podemos atravesar.
+var noPermitido = [];
+    
 function hacerArbol (x,z) {
    
     //  CREAR EL TRONCO
@@ -83,8 +86,22 @@ function hacerArbol (x,z) {
     
     //posiciono la copa
     copa.position.y=175;
+    
+    //Añadir circulo de control del límite
+    var circulo = new THREE.CircleGeometry(300);
+    var circulo_t = new THREE.MeshNormalMaterial();
+    var limite = new THREE.Mesh(circulo,circulo_t);
+    
+    limite.position.y = -100;
+    limite.rotation.x = -Math.PI/2;
+    tronco.add(limite);
+    noPermitido.push(limite);
+    
     scene.add(tronco);
 }   
+    
+    
+    
 //TODO:Crear un area rectangular dónde haya árboles plantados
 
     var distancia_arboles=800;
@@ -96,8 +113,8 @@ function hacerArbol (x,z) {
 
     
     for(var x=minimo_x;x<=maximo_x;x=x+distancia_arboles){
-    for(var z=minimo_z;z<=maximo_z;z=z+distancia_arboles){
-    hacerArbol(x,z);
+        for(var z=minimo_z;z<=maximo_z;z=z+distancia_arboles){
+            hacerArbol(x,z);
         }
     }
 
@@ -111,10 +128,10 @@ function hacerArbol (x,z) {
 //alert(evento.code);
     var codigo=evento.code
     
-        if (codigo=="ArrowLeft") marcador.rotation.y+=0.01;
-        if (codigo=="ArrowRight") marcador.rotation.y-= 0.01;
+        if (codigo=="ArrowLeft") marcador.rotation.y+=0.1;
+        if (codigo=="ArrowRight") marcador.rotation.y-= 0.1;
         if (codigo=="ArrowUp") avanzar(marcador,marcador.rotation.y, false);
-        if (codigo=="ArrowDown") avanzar(marcador,marcador.rotation.y, true)= 5;
+        if (codigo=="ArrowDown") avanzar(marcador,marcador.rotation.y, true);
         if (codigo=="KeyG") {
             girando= !girando;
         }
@@ -136,7 +153,7 @@ function hacerArbol (x,z) {
         console.log("Sin(radianes):"+Math.sin(radianes));
         
         var inc_x = -20*Math.cos(radianes);
-        var inc_z = -20*Math.sin(radianes);
+        var inc_z = +20*Math.sin(radianes);
         
         //Movemos el objeto a la dirección que toca
         objeto.position.x += inc_x;
@@ -153,12 +170,16 @@ function hacerArbol (x,z) {
     }
     
     function hayColision(){
+        var vector = new THREE.Vector3(0,-1,0);
+        var raycaster = new THREE.Raycaster(marcador.position,vector);
+        
+        var colisionados 
         return false;
     }
  
     function animate() {
         requestAnimationFrame(animate);
-        avatar.rotation.z=avatar.rotation.z+0.01;
+        avatar.rotation.z=avatar.rotation.z+0.1;
         renderer.render(scene,camera);
     }
     animate();
